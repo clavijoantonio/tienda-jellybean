@@ -2,6 +2,7 @@ package com.alexandra.jellybeanstore.views;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +19,9 @@ import androidx.core.view.WindowInsetsCompat;
 import com.alexandra.jellybeanstore.R;
 import com.alexandra.jellybeanstore.activityCrearPedido;
 import com.alexandra.jellybeanstore.databinding.ActivityViewDetalleProductoBinding;
+import com.alexandra.jellybeanstore.models.Pedido;
 import com.alexandra.jellybeanstore.models.Product;
+import com.alexandra.jellybeanstore.viewmodels.CrearPedidoViewModel;
 import com.squareup.picasso.Picasso;
 
 public class viewDetalleProducto extends AppCompatActivity {
@@ -26,10 +29,12 @@ public class viewDetalleProducto extends AppCompatActivity {
     private String imageUrl;
     private static final String TAG = "viewDetalleProducto";
 
+    private Pedido pedido = new Pedido();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupViews();
+
         // Inicialización de View Binding
         binding = ActivityViewDetalleProductoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -65,19 +70,32 @@ public class viewDetalleProducto extends AppCompatActivity {
             Toast.makeText(this, "Error al mostrar el producto", Toast.LENGTH_LONG).show();
             finish();
         }
+        setupViews();
     }
     private void setupViews() {
-
+      long cliente = pedido.getClienteId();
         // Configurar listeners
-       // binding.buttonBuy.setOnClickListener(v -> mostrarFormularioAgregarCliente());
-        binding.buttonBuy.setOnClickListener(v -> {
-            Intent intent = new Intent(this, activityCrearPedido.class);
-            startActivity(intent);
+        binding.buttonAgregar.setOnClickListener(v ->{
+
+            if(cliente==0) {
+                        mostrarFormularioAgregarCliente();
+             }else{
+                Toast.makeText(this, "error no debe presntrar esto", Toast.LENGTH_LONG).show();
+            }
         });
+
     }
-
+ //funcion para cargar la vista del cliente
     public void mostrarFormularioAgregarCliente(){
+        Dialog dialog = new Dialog(this);
+        DialogAgregarProductoBinding dialogBinding = DialogAgregarProductoBinding.inflate(getLayoutInflater());
+        dialog.setContentView(dialogBinding.getRoot());
 
+    }
+    //funcion para cargar la vista de crear pedido
+    public void mostrarAtivityCrearPedido(){
+        Intent intent = new Intent(viewDetalleProducto.this, activityCrearPedido.class);
+        startActivity(intent);
     }
     @Override
     protected void onDestroy() {

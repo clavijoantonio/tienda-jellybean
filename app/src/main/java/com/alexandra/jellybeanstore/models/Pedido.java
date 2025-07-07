@@ -19,7 +19,8 @@ public class Pedido {
         this.clienteId = clienteId;
         this.detalles = detalles;
     }
-
+   public Pedido(){
+   }
     // Getters
     public String getNumeroPedido() { return numeroPedido; }
     public long getClienteId() { return clienteId; }

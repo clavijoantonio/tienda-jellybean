@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alexandra.jellybeanstore.R;
+import com.alexandra.jellybeanstore.activityCrearPedido;
 import com.alexandra.jellybeanstore.adapter.JellyBeanAdapter;
 import com.alexandra.jellybeanstore.adapter.SelectListener;
 import com.alexandra.jellybeanstore.models.Product;
@@ -89,9 +90,10 @@ public class MainActivity extends AppCompatActivity implements SelectListener {
 
     @Override
     public void onItemClicked(Product product) {
-     Intent intent =new Intent(MainActivity.this, viewDetalleProducto.class);
-     intent.putExtra("product",product);
-     startActivity(intent);
+    Intent intent =new Intent(MainActivity.this, viewDetalleProducto.class);
+    intent.putExtra("product",product);
+    startActivity(intent);
+
 
     }
 }

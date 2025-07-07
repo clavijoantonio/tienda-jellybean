@@ -23,6 +23,8 @@ public class CrearPedidoViewModel extends ViewModel{
         this.repository = repository;
         cargarClientes();
     }
+     public CrearPedidoViewModel(){
+     }
 
    // public LiveData<List<Cliente>> getClientes() { return clientes; }
     public LiveData<String> getError() { return error; }
