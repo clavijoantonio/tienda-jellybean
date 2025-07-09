@@ -1,5 +1,7 @@
 package com.alexandra.jellybeanstore.api;
 
+import com.alexandra.jellybeanstore.models.Pedido;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
