@@ -2,7 +2,6 @@ package com.alexandra.jellybeanstore;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -23,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class loginCliente extends AppCompatActivity {
+public class activityLoginCliente extends AppCompatActivity {
     private EditText nombre, identificacion;
     private Button btnLogin;
     @Override
@@ -42,12 +41,17 @@ public class loginCliente extends AppCompatActivity {
         identificacion = findViewById(R.id.etIdentificacion);
         btnLogin = findViewById(R.id.btnLogin);
 
+        setupViews();
+    }
+    private void setupViews() {
         btnLogin.setOnClickListener(v -> {
             String email = nombre.getText().toString().trim();
             String password = identificacion.getText().toString().trim();
 
             if (validarInputs(email, password)) {
                 realizarLogin(email, password);
+            }else {
+                Toast.makeText(this,"error en el boton", Toast.LENGTH_LONG).show();
             }
         });
     }

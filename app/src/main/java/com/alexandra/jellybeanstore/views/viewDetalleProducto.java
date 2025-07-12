@@ -1,13 +1,11 @@
 package com.alexandra.jellybeanstore.views;
 
-import static android.content.ContentValues.TAG;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -18,10 +16,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.alexandra.jellybeanstore.R;
 import com.alexandra.jellybeanstore.activityCrearPedido;
+import com.alexandra.jellybeanstore.databinding.ActivityLoginClienteBinding;
 import com.alexandra.jellybeanstore.databinding.ActivityViewDetalleProductoBinding;
 import com.alexandra.jellybeanstore.models.Pedido;
 import com.alexandra.jellybeanstore.models.Product;
-import com.alexandra.jellybeanstore.viewmodels.CrearPedidoViewModel;
 import com.squareup.picasso.Picasso;
 
 public class viewDetalleProducto extends AppCompatActivity {
@@ -79,8 +77,9 @@ public class viewDetalleProducto extends AppCompatActivity {
 
             if(cliente==0) {
                         mostrarFormularioAgregarCliente();
+
              }else{
-                Toast.makeText(this, "error no debe presntrar esto", Toast.LENGTH_LONG).show();
+                mostrarAtivityCrearPedido();
             }
         });
 
@@ -88,9 +87,13 @@ public class viewDetalleProducto extends AppCompatActivity {
  //funcion para cargar la vista del cliente
     public void mostrarFormularioAgregarCliente(){
         Dialog dialog = new Dialog(this);
-        DialogAgregarProductoBinding dialogBinding = DialogAgregarProductoBinding.inflate(getLayoutInflater());
+        ActivityLoginClienteBinding dialogBinding = ActivityLoginClienteBinding.inflate(getLayoutInflater());
         dialog.setContentView(dialogBinding.getRoot());
-
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        }
+        dialog.show();
     }
     //funcion para cargar la vista de crear pedido
     public void mostrarAtivityCrearPedido(){

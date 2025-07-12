@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".loginCliente"
+            android:name=".activityLoginCliente"
             android:exported="false" />
         <activity
             android:name=".itemDetallePedido"
