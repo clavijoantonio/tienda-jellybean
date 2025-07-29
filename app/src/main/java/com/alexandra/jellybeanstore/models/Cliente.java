@@ -1,10 +1,12 @@
 package com.alexandra.jellybeanstore.models;
 
+import com.alexandra.jellybeanstore.api.ClienteResponse;
+
 import java.util.List;
 
 public class Cliente {
 
-    private long clienteId;
+    private long idCliente;
     private String nombre;
     private String apellido;
 
@@ -12,12 +14,11 @@ public class Cliente {
 
     //construtor para la devolucion del pedido creardo en la base de datos
 
-    public Cliente(long clienteId, String nombre, String apellido, String identificacion) {
-        this.clienteId = clienteId;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.identificacion = identificacion;
-    }
+    public Cliente(ClienteResponse clienteResponse) {
+        this.idCliente = clienteResponse.getIdCliente();
+        this.nombre = clienteResponse.getNombre();
+        this.apellido = clienteResponse.getApellido();
+        this.identificacion = clienteResponse.getIdentificacion();    }
 
 
     //construtor para la creacion el pedido
@@ -26,12 +27,13 @@ public class Cliente {
    }
     // Getters
 
-    public long getClienteId() {
-        return clienteId;
+
+    public long getIdCliente() {
+        return idCliente;
     }
 
-    public void setClienteId(long clienteId) {
-        this.clienteId = clienteId;
+    public void setIdCliente(long idCliente) {
+        this.idCliente = idCliente;
     }
 
     public String getNombre() {

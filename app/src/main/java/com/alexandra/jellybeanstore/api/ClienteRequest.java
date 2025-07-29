@@ -2,22 +2,22 @@ package com.alexandra.jellybeanstore.api;
 
 public class ClienteRequest {
     private long clienteId;
-    private String nombre;
+    private String nombreCliente;
     private String apellido;
 
     private String identificacion;
 
     //construtor para la devolucion del pedido creardo en la base de datos
 
-    public ClienteRequest(long clienteId, String nombre, String apellido, String identificacion) {
+    public ClienteRequest(long clienteId, String nombreCliente, String apellido, String identificacion) {
         this.clienteId = clienteId;
-        this.nombre = nombre;
+        this.nombreCliente = nombreCliente;
         this.apellido = apellido;
         this.identificacion = identificacion;
     }
 
-    public ClienteRequest(String nombre, String identificacion) {
-        this.nombre = nombre;
+    public ClienteRequest(String nombreCliente, String identificacion) {
+        this.nombreCliente = nombreCliente;
         this.identificacion = identificacion;
     }
 }

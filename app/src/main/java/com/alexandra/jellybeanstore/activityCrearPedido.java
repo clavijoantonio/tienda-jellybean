@@ -1,6 +1,7 @@
 package com.alexandra.jellybeanstore;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import com.alexandra.jellybeanstore.models.DetallePedido;
 import com.alexandra.jellybeanstore.repositories.PedidoRepository;
 import com.alexandra.jellybeanstore.viewmodels.CrearPedidoViewModel;
 import com.alexandra.jellybeanstore.viewmodels.ViewModelFactory;
+import com.alexandra.jellybeanstore.views.MainActivity;
 
 public class activityCrearPedido extends AppCompatActivity {
     private ActivityCrearPedidoBinding binding;
@@ -64,7 +66,7 @@ public class activityCrearPedido extends AppCompatActivity {
 
         // Botón para agregar producto
         binding.btnAgregarProducto.setOnClickListener(v -> {
-           // mostrarDialogoAgregarProducto();
+           mostrarDialogoAgregarProducto();
         });
 
         // Botón para crear pedido
@@ -90,8 +92,11 @@ public class activityCrearPedido extends AppCompatActivity {
                 }
             });
         }
-       /* private void mostrarDialogoAgregarProducto () {
-            Dialog dialog = new Dialog(this);
+        private void mostrarDialogoAgregarProducto () {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+           /* Dialog dialog = new Dialog(this);
             DialogAgregarProductoBinding dialogBinding = DialogAgregarProductoBinding.inflate(getLayoutInflater());
             dialog.setContentView(dialogBinding.getRoot());
 
@@ -108,8 +113,8 @@ public class activityCrearPedido extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "Cantidad inválida", Toast.LENGTH_SHORT).show();
                 }
-            });
+            });*/
 
-            dialog.show();
-        }*/
+           // dialog.show();
+        }
     }

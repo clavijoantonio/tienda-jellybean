@@ -33,7 +33,7 @@ public class PedidoRepository {
 
         PedidoRequest request = new PedidoRequest(
                 pedido.getNumeroPedido(),
-                pedido.getClienteId(),
+                pedido.getIdCliente(),
                 detallesRequest
         );
 

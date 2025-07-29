@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".agregarCantidad"
+            android:exported="false" />
+        <activity
             android:name=".activityLoginCliente"
             android:exported="false" />
         <activity

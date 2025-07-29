@@ -4,8 +4,8 @@ public class DetallePedido {
     private long productoId;
     private int cantidad;
 
-    public DetallePedido(long productoId, int cantidad) {
-        this.productoId = productoId;
+    public DetallePedido(Product product, int cantidad) {
+        this.productoId = product.getId();
         this.cantidad = cantidad;
     }
 

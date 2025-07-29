@@ -41,10 +41,10 @@ public class CrearPedidoViewModel extends ViewModel{
         }
     }
 
-    public void crearPedido( long clienteId) {
+    public void crearPedido( long idCliente) {
         isLoading.setValue(true);
 
-        Pedido pedido = new Pedido(clienteId, new ArrayList<>(detalles));
+        Pedido pedido = new Pedido(idCliente, new ArrayList<>(detalles));
 
         repository.crearPedido(pedido, new PedidoRepository.PedidoCallback() {
             @Override

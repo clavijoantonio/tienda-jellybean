@@ -4,26 +4,45 @@ import java.util.List;
 
 public class Pedido {
     private String numeroPedido;
-    private long clienteId;
+    private long idCliente;
     private List<DetallePedido> detalles;
     //construtor para la devolucion del pedido creardo en la base de datos
-    public Pedido(String numeroPedido, long clienteId, List<DetallePedido> detalles) {
+    public Pedido(String numeroPedido, long idCliente, List<DetallePedido> detalles) {
         this.numeroPedido = numeroPedido;
-        this.clienteId = clienteId;
+        this.idCliente = idCliente;
         this.detalles = detalles;
     }
 
     //construtor para la creacion el pedido
-    public Pedido( long clienteId, List<DetallePedido> detalles) {
+    public Pedido( long idCliente, List<DetallePedido> detalles) {
         this.numeroPedido = numeroPedido;
-        this.clienteId = clienteId;
+        this.idCliente = idCliente;
         this.detalles = detalles;
+    }
+    public Pedido( long idCliente) {
+        this.idCliente = idCliente;
     }
    public Pedido(){
    }
     // Getters
     public String getNumeroPedido() { return numeroPedido; }
-    public long getClienteId() { return clienteId; }
+
+    public void setNumeroPedido(String numeroPedido) {
+        this.numeroPedido = numeroPedido;
+    }
+
+    public long getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(long idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public void setDetalles(List<DetallePedido> detalles) {
+        this.detalles = detalles;
+    }
+
     public List<DetallePedido> getDetalles() { return detalles; }
 }
 
