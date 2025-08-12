@@ -11,7 +11,7 @@ import retrofit2.http.Path;
 
 public interface PedidoApiService {
     @POST("pedidos")
-    Call<ResponseBody> crearPedido(@Body PedidoRequest pedido);
+    Call<PedidoResponse> crearPedido(@Body PedidoRequest pedido);
 
    // @GET("pedidos/{id}")
   // Call<PedidoResponse> obtenerPedido(@Path("id") long id);

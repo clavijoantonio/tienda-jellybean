@@ -6,8 +6,8 @@ import java.io.Serializable;
 
 public class Product implements Serializable {
 
-    @SerializedName("id")
-    private int id;
+    @SerializedName("idProducto")
+    private long idProducto;
     @SerializedName("nombreProducto")
     private String nombreProducto;
     @SerializedName("descripcionProducto")
@@ -19,12 +19,15 @@ public class Product implements Serializable {
     @SerializedName("Foto")
     private String Foto;
 
-    public int getId() {
-        return id;
+    public Product(int i, String productoPrueba, double v) {
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public long getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(long idProducto) {
+        this.idProducto = idProducto;
     }
 
     public String getNombreProducto() {

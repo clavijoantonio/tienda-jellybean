@@ -1,5 +1,6 @@
 package com.alexandra.jellybeanstore.api;
 
+import com.alexandra.jellybeanstore.models.DetallePedido;
 import com.alexandra.jellybeanstore.models.Product;
 
 import java.util.List;
@@ -14,5 +15,5 @@ public interface ProductoApiService {
     Call<List<Product>> getProducts();
 
     @GET("producto/{id}")
-    Call<Product> getProductById(@Path("id") int id);
+    Call<Product> getProductById(@Path("id") long id);
 }

@@ -24,6 +24,7 @@ import com.alexandra.jellybeanstore.api.ApiClient;
 import com.alexandra.jellybeanstore.api.ClienteApiService;
 import com.alexandra.jellybeanstore.api.ClienteRequest;
 import com.alexandra.jellybeanstore.api.ClienteResponse;
+import com.alexandra.jellybeanstore.api.PedidoApiService;
 import com.alexandra.jellybeanstore.databinding.ActivityAgregarCantidadBinding;
 import com.alexandra.jellybeanstore.databinding.ActivityLoginClienteBinding;
 import com.alexandra.jellybeanstore.databinding.ActivityViewDetalleProductoBinding;
@@ -31,7 +32,11 @@ import com.alexandra.jellybeanstore.models.Cliente;
 import com.alexandra.jellybeanstore.models.DetallePedido;
 import com.alexandra.jellybeanstore.models.Pedido;
 import com.alexandra.jellybeanstore.models.Product;
+import com.alexandra.jellybeanstore.repositories.PedidoRepository;
+import com.alexandra.jellybeanstore.repositories.ProductoRepository;
 import com.alexandra.jellybeanstore.viewmodels.CrearPedidoViewModel;
+import com.alexandra.jellybeanstore.viewmodels.CrearPedidoViewModelFactory;
+import com.alexandra.jellybeanstore.viewmodels.SharedPedidoViewModel;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
@@ -40,6 +45,7 @@ import retrofit2.Response;
 
 public class viewDetalleProducto extends AppCompatActivity {
     private ActivityViewDetalleProductoBinding binding;
+    private SharedPedidoViewModel sharedViewModel;
     private String imageUrl;
     private EditText nombre, password, cantidad;
     private Button btnLogin;
@@ -58,7 +64,14 @@ public class viewDetalleProducto extends AppCompatActivity {
         // Inicialización de View Binding
         binding = ActivityViewDetalleProductoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        viewModel = new ViewModelProvider(this).get(CrearPedidoViewModel.class);
+        PedidoApiService apiService = ApiClient.getClient().create(PedidoApiService.class);
+        PedidoRepository pedidoRepository = new PedidoRepository(apiService);
+        ProductoRepository productoRepository= new ProductoRepository();
+        CrearPedidoViewModelFactory factory = new CrearPedidoViewModelFactory(pedidoRepository, productoRepository);
+        viewModel = new ViewModelProvider(this,factory).get(CrearPedidoViewModel.class);
+        // Obtener el ViewModel compartido
+        sharedViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())
+        ).get(SharedPedidoViewModel.class);
         EdgeToEdge.enable(this);
         // Obtener SharedPreferences
         sharedPreferences = getSharedPreferences("session", MODE_PRIVATE);
@@ -86,7 +99,7 @@ public class viewDetalleProducto extends AppCompatActivity {
             binding.textDescription.setText(getString(R.string.description, product.getDescripcionProducto()));
             binding.textPrice.setText(getString(R.string.price, String.valueOf(product.getPrecioProducto())));
             binding.textCantidad.setText(getString(R.string.amount, String.valueOf(product.getCantidaDisponible())));
-
+            binding.textId.setText(getString(R.string.Id, String.valueOf(product.getIdProducto())));
             imageUrl = product.getFoto();
             Picasso.get()
                     .load(imageUrl)
@@ -104,13 +117,12 @@ public class viewDetalleProducto extends AppCompatActivity {
     private void setupViews() {
 
         // Configurar listeners
+
         binding.buttonAgregar.setOnClickListener(v ->{
+
             if(cliente!=0) {
                 agregarCantidad();
-                cantidadProduct= Integer.parseInt(cantidad.getText().toString().trim());
-                DetallePedido detallePedido= new DetallePedido(product,cantidadProduct);
-                viewModel.agregarDetalle(detallePedido);
-                mostrarAtivityCrearPedido();
+
              }else{
                 mostrarFormularioAgregarCliente();
             }
@@ -207,7 +219,29 @@ public class viewDetalleProducto extends AppCompatActivity {
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         }
         cantidad=dialogBinding.etCantidad;
+       // long idProducto= product.getIdProducto();
+        dialogBinding.btnEnviar.setOnClickListener(v->{
+            try {
+                //long productId = product.getIdProducto();
+                int cantidad = Integer.parseInt(dialogBinding.etCantidad.getText().toString());
+
+                DetallePedido detalle = new DetallePedido(product, cantidad);
+                Log.d("DEBUG", "Creando detalle - Producto: " + product + ", Cantidad: " + cantidad);
+                viewModel.agregarDetalle(detalle);
+
+
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+                mostrarAtivityCrearPedido();
+                finish();
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Cantidad inválida", Toast.LENGTH_SHORT).show();
+            }
+    });
+
         dialog.show();
+
     }
 
     //funcion para cargar la vista de crear pedido

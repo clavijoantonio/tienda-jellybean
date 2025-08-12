@@ -21,20 +21,19 @@ public class PedidoRepository {
         this.apiService = apiService;
     }
 
-    public void crearPedido(Pedido pedido, final PedidoCallback callback) {
+   /* public void crearPedido(Pedido pedido, final PedidoCallback callback) {
         // Convertir a request
         List<DetalleRequest> detallesRequest = new ArrayList<>();
         for (DetallePedido detalle : pedido.getDetalles()) {
             detallesRequest.add(new DetalleRequest(
-                    detalle.getProductoId(),
+                    detalle.getId(),
                     detalle.getCantidad()
             ));
         }
 
         PedidoRequest request = new PedidoRequest(
-                pedido.getNumeroPedido(),
                 pedido.getIdCliente(),
-                detallesRequest
+                PedidoRequest
         );
 
         apiService.crearPedido(request).enqueue(new Callback<ResponseBody>() {
@@ -52,7 +51,7 @@ public class PedidoRepository {
                 callback.onError(t.getMessage());
             }
         });
-    }
+    }*/
 
     public interface PedidoCallback {
         void onSuccess();

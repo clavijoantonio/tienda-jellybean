@@ -1,3 +1,10 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="dialog_corner_radius">16dp</dimen>
+    <dimen name="dialog_padding">24dp</dimen>
+    <dimen name="compact_padding">8dp</dimen>
+    <dimen name="compact_text_size_title">20sp</dimen>
+    <dimen name="compact_text_size_total">18sp</dimen>
+    <dimen name="compact_button_height">48dp</dimen>
+    <dimen name="compact_corner_radius">6dp</dimen>
 </resources>

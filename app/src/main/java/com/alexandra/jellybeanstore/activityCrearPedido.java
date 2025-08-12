@@ -1,8 +1,8 @@
 package com.alexandra.jellybeanstore;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,18 +18,21 @@ import com.alexandra.jellybeanstore.adapter.DetallePedidoAdapter;
 import com.alexandra.jellybeanstore.api.ApiClient;
 import com.alexandra.jellybeanstore.api.PedidoApiService;
 import com.alexandra.jellybeanstore.databinding.ActivityCrearPedidoBinding;
-import com.alexandra.jellybeanstore.databinding.ActivityViewDetalleProductoBinding;
 import com.alexandra.jellybeanstore.models.DetallePedido;
+import com.alexandra.jellybeanstore.models.Product;
 import com.alexandra.jellybeanstore.repositories.PedidoRepository;
+import com.alexandra.jellybeanstore.repositories.ProductoRepository;
 import com.alexandra.jellybeanstore.viewmodels.CrearPedidoViewModel;
-import com.alexandra.jellybeanstore.viewmodels.ViewModelFactory;
+import com.alexandra.jellybeanstore.viewmodels.CrearPedidoViewModelFactory;
+import com.alexandra.jellybeanstore.viewmodels.SharedPedidoViewModel;
 import com.alexandra.jellybeanstore.views.MainActivity;
+
+import java.util.ArrayList;
 
 public class activityCrearPedido extends AppCompatActivity {
     private ActivityCrearPedidoBinding binding;
     private CrearPedidoViewModel viewModel;
     private DetallePedidoAdapter adapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,28 +49,53 @@ public class activityCrearPedido extends AppCompatActivity {
         });
         // Configurar ViewModel
         PedidoApiService apiService = ApiClient.getClient().create(PedidoApiService.class);
-        PedidoRepository repository = new PedidoRepository(apiService);
-        viewModel = new ViewModelProvider(this, new ViewModelFactory(repository)).get(CrearPedidoViewModel.class);
-
-        setupViews();
-        setupObservers();
+        PedidoRepository pedidoRepository = new PedidoRepository(apiService);
+        ProductoRepository productoRepository= new ProductoRepository();
+        CrearPedidoViewModelFactory factory = new CrearPedidoViewModelFactory(pedidoRepository, productoRepository);
+        viewModel = new ViewModelProvider(this,factory).get(CrearPedidoViewModel.class);
+        setupRecyclerView();
+        setupButtons();
 
     }
 
-    private void setupViews() {
-        // Configurar RecyclerView
-        adapter = new DetallePedidoAdapter(viewModel.getDetalles(), position -> {
+    private void setupRecyclerView() {
+        DetallePedido detalle= new DetallePedido();
+        adapter = new DetallePedidoAdapter(new ArrayList<>(), position -> {
             viewModel.removerDetalle(position);
-            adapter.notifyDataSetChanged();
         });
 
         binding.rvDetalles.setLayoutManager(new LinearLayoutManager(this));
         binding.rvDetalles.setAdapter(adapter);
 
-        // Botón para agregar producto
-        binding.btnAgregarProducto.setOnClickListener(v -> {
-           mostrarDialogoAgregarProducto();
+        viewModel.getDetalles().observe(this, detalles -> {
+            Log.d("OBSERVER", "Datos recibidos: " + (detalles != null ? detalles.size() : "null"));
+            if (detalles != null) {
+                adapter.updateData(detalles);
+                binding.rvDetalles.scheduleLayoutAnimation();
+            }else{
+                Toast.makeText(this, "detalel vacio", Toast.LENGTH_LONG).show();
+            }
+
         });
+
+        viewModel.getIsLoading().observe(this, isLoading -> {
+            binding.progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        });
+
+        viewModel.getError().observe(this, error -> {
+            if (error != null) {
+                Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
+    private void setupButtons() {
+        binding.btnAgregarProducto.setOnClickListener(v -> {
+            mostrarDialogoAgregarProducto();
+        });
+    }
 
         // Botón para crear pedido
        /* binding.btnCrearPedido.setOnClickListener(v -> {
@@ -78,9 +106,9 @@ public class activityCrearPedido extends AppCompatActivity {
                 viewModel.crearPedido( clienteId);
             }
         });*/
-    }
 
-        private void setupObservers () {
+
+        /*private void setupObservers () {
             viewModel.getIsLoading().observe(this, isLoading -> {
                 binding.progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
                 binding.btnCrearPedido.setEnabled(!isLoading);
@@ -91,8 +119,10 @@ public class activityCrearPedido extends AppCompatActivity {
                     Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
                 }
             });
-        }
-        private void mostrarDialogoAgregarProducto () {
+        }*/
+
+
+    private void mostrarDialogoAgregarProducto () {
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

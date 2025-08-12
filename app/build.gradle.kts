@@ -60,4 +60,7 @@ dependencies {
 
     // Para ViewModel (AndroidX)
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation ("androidx.activity:activity:1.6.0") // Para OnBackPressedDispatcher
+    implementation ("androidx.fragment:fragment:1.5.5") // Para FragmentManager
+    implementation ("com.google.android.material:material:1.9.0")
 }

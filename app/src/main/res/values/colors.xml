@@ -2,4 +2,29 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorError">#FF5252</color>
+    <color name="colorPrimaryLight">#E1F5FE</color>
+    <!-- Azul claro -->
+    <color name="primary_extra_light">#E3F2FD</color>  <!-- Azul muy claro -->
+        <!-- Colores principales -->
+    <color name="primary">#6750A4</color>  <!-- Morado moderno Material 3 -->
+    <color name="primary_dark">#463770</color>  <!-- Versión oscura del primario -->
+    <color name="primary_light">#EADDFF</color>  <!-- Tinte claro del primario -->
+
+    <!-- Fondos -->
+    <color name="background_light">#FEF7FF</color>  <!-- Fondo claro con tono cálido -->
+    <!-- Alternativa neutral: -->
+    <!-- <color name="background_light">#F8F9FA</color> -->
+
+    <!-- Textos -->
+    <color name="text_primary">#1C1B1F</color>  <!-- Texto principal oscuro -->
+    <color name="text_secondary">#49454F</color>  <!-- Texto secundario -->
+
+    <!-- Superficies y variantes -->
+    <color name="surface_variant">#E7E0EC</color>  <!-- Para cards y elementos elevados -->
+    <color name="outline">#79747E</color>  <!-- Para bordes s-->
+    <color name="surface">#FFFFFF</color>
+    <color name="onPrimary">#FFFFFF</color>
+
+
 </resources>

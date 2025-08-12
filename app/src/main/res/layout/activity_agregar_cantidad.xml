@@ -1,45 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cantidad"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".agregarCantidad">
+    android:layout_height="wrap_content"
+    android:padding="24dp"
+    android:background="@drawable/dialog_background"
+    android:id="@+id/cantidad">
 
+    <!-- Título del diálogo -->
     <TextView
-        android:layout_width="193dp"
-        android:layout_height="42dp"
-        android:text="Cantidad"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/Txcantidad"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.661" />
-
-    <EditText
-        android:id="@+id/etCantidad"
-        android:layout_width="215dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="136dp"
-        android:hint="Cantidad"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.234"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnEnviar"
-        android:layout_width="match_parent"
+        android:id="@+id/dialogTitle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Enviar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etCantidad"
-        app:layout_constraintVertical_bias="0.162"
-        tools:layout_editor_absoluteX="0dp" />
+        android:text="Ingresar Cantidad"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textColor="@color/text_primary"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
+    <!-- Campo de entrada con contenedor -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:hint="Cantidad"
+        app:boxStrokeColor="@color/primary"
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialogTitle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etCantidad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLines="1"
+            android:textSize="16sp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Contenedor de botones -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal"
+        android:gravity="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputLayout">
+
+        <!-- Botón Cancelar -->
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="Cancelar"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            app:cornerRadius="8dp"/>
+
+        <Space
+            android:layout_width="8dp"
+            android:layout_height="1dp"/>
+
+        <!-- Botón Enviar -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEnviar"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="Aceptar"
+            android:textColor="@color/onPrimary"
+            app:backgroundTint="@color/primary"
+            app:cornerRadius="8dp"
+            app:iconGravity="textStart"
+            app:iconPadding="4dp"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
