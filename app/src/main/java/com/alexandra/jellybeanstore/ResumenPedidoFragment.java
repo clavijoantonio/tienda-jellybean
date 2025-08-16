@@ -32,7 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class ResumenPedidoFragment extends Fragment {
+public class ResumenPedidoFragment extends Fragment  implements PedidoAdapter.OnDeleteClickListener{
     private NavController navController;
     private FragmentResumenPedidoBinding binding;
     private SharedPedidoViewModel sharedViewModel;
@@ -50,7 +50,7 @@ public class ResumenPedidoFragment extends Fragment {
 
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedPedidoViewModel.class);
 
-        adapter = new PedidoAdapter();
+        adapter = new PedidoAdapter(this);
         binding.rvDetalles.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvDetalles.setAdapter(adapter);
         navController = Navigation.findNavController(view);
@@ -62,7 +62,12 @@ public class ResumenPedidoFragment extends Fragment {
 
         binding.btnConfirmarPedido.setOnClickListener(v -> confirmarPedido());
     }
-
+    // Implementación del método del listener
+    @Override
+    public void onDeleteClick(DetallePedido detalle) {
+        // Eliminar el detalle del ViewModel
+        sharedViewModel.eliminarDetalle(detalle);
+    }
     private void calcularTotal(List<DetallePedido> detalles) {
         double total = 0;
         for (DetallePedido detalle : detalles) {
@@ -74,13 +79,15 @@ public class ResumenPedidoFragment extends Fragment {
     private void confirmarPedido() {
         sharedViewModel.getDetallesPedido().observe(getViewLifecycleOwner(), detalles -> {
             if (detalles == null || detalles.isEmpty()) {
+
                 Toast.makeText(requireContext(), "No hay productos en el pedido", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             long clienteId = sharedViewModel.getClienteId().getValue(); // Asegúrate de tener este método en tu ViewModel
-            PedidoRequest pedidoRequest = new PedidoRequest(clienteId, detalles);
 
+            PedidoRequest pedidoRequest = new PedidoRequest(clienteId, detalles);
+            Toast.makeText(requireContext(), String.valueOf(pedidoRequest.getDetalles().toString()), Toast.LENGTH_SHORT).show();
             binding.btnConfirmarPedido.setEnabled(false);
             binding.progressBar.setVisibility(View.VISIBLE);
 

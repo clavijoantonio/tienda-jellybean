@@ -3,10 +3,11 @@ package com.alexandra.jellybeanstore.models;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class DetallePedido implements Serializable {
-    @SerializedName("id")
-    private long id;
+    @SerializedName("productoId")
+    private long productoId;
     @SerializedName("cantidad")
     private int cantidad;
     @SerializedName("product")
@@ -15,18 +16,23 @@ public class DetallePedido implements Serializable {
 
     }
     public DetallePedido(Product product, int cantidad) {
-        this.id= product.getIdProducto();
+        this.productoId= product.getIdProducto();
         this.product = product;
         this.cantidad = cantidad;
     }
 
     // Getters
-    public long getId() { return id; }
-    public int getCantidad() { return cantidad; }
 
-    public void setId(long id) {
-        this.id = id;
+
+    public long getProductoId() {
+        return productoId;
     }
+
+    public void setProductoId(long productoId) {
+        this.productoId = productoId;
+    }
+
+    public int getCantidad() { return cantidad; }
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
@@ -39,12 +45,24 @@ public class DetallePedido implements Serializable {
     public void setProduct(Product product) {
         this.product = product;
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DetallePedido that = (DetallePedido) o;
+        return productoId == that.productoId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productoId);
+    }
 
     // Método toString para depuración
     @Override
     public String toString() {
         return "DetallePedido{" +
-                "id=" + id +
+                "id=" + productoId +
                 ", cantidad=" + cantidad +
                 ", product=" + (product != null ? product.getNombreProducto() : "null") +
                 '}';

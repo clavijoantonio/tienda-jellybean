@@ -16,7 +16,7 @@ import com.alexandra.jellybeanstore.api.ApiClient;
 import com.alexandra.jellybeanstore.api.ClienteApiService;
 import com.alexandra.jellybeanstore.api.ClienteRequest;
 import com.alexandra.jellybeanstore.api.ClienteResponse;
-import com.alexandra.jellybeanstore.viewmodels.CrearPedidoViewModel;
+import com.alexandra.jellybeanstore.views.CrearPedidoViewModel;
 
 import retrofit2.Call;
 import retrofit2.Callback;

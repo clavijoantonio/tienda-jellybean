@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -26,16 +25,11 @@ import com.alexandra.jellybeanstore.api.ApiClient;
 import com.alexandra.jellybeanstore.api.ClienteApiService;
 import com.alexandra.jellybeanstore.api.ClienteRequest;
 import com.alexandra.jellybeanstore.api.ClienteResponse;
-import com.alexandra.jellybeanstore.api.PedidoApiService;
 import com.alexandra.jellybeanstore.databinding.ActivityAgregarCantidadBinding;
 import com.alexandra.jellybeanstore.databinding.ActivityLoginClienteBinding;
 import com.alexandra.jellybeanstore.databinding.FragmentViewDetalleProductoBinding;
 import com.alexandra.jellybeanstore.models.DetallePedido;
 import com.alexandra.jellybeanstore.models.Product;
-import com.alexandra.jellybeanstore.repositories.PedidoRepository;
-import com.alexandra.jellybeanstore.repositories.ProductoRepository;
-import com.alexandra.jellybeanstore.viewmodels.CrearPedidoViewModel;
-import com.alexandra.jellybeanstore.viewmodels.CrearPedidoViewModelFactory;
 import com.alexandra.jellybeanstore.viewmodels.SharedPedidoViewModel;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
@@ -47,7 +41,6 @@ import retrofit2.Response;
 public class ViewDetalleProductoFragment extends Fragment {
     private FragmentViewDetalleProductoBinding binding;
     private SharedPedidoViewModel sharedViewModel;
-    private CrearPedidoViewModel viewModel;
     private Product product;
     private long cliente;
     private SharedPreferences sharedPreferences;
@@ -68,28 +61,25 @@ public class ViewDetalleProductoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
-        PedidoApiService apiService = ApiClient.getClient().create(PedidoApiService.class);
-        PedidoRepository pedidoRepository = new PedidoRepository(apiService);
-        ProductoRepository productoRepository = new ProductoRepository();
-        CrearPedidoViewModelFactory factory = new CrearPedidoViewModelFactory(pedidoRepository, productoRepository);
 
-        viewModel = new ViewModelProvider(requireActivity(), factory).get(CrearPedidoViewModel.class);
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedPedidoViewModel.class);
 
         sharedPreferences = requireActivity().getSharedPreferences("session", Context.MODE_PRIVATE);
+
         cliente = sharedPreferences.getLong("clienteId", 0);
         // Obtener NavController
         NavController navController = Navigation.findNavController(view);
-// Configurar manejo de back button específico para este fragment
 
-        binding.buttonAgregar.setOnClickListener(v -> {
+        if (cliente != 0) {
+            sharedViewModel.setClienteId(cliente);
+        }
+
+        binding.fabVerPedido.setOnClickListener(v -> {
             // Navegar usando el fragment_container como host
             navController.navigate(R.id.action_to_resumenPedidoFragment);
         });
 
-        if (cliente != 0) {
-            viewModel.setClienteId(cliente);
-        }
+
 
         if (getArguments() != null) {
             product = (Product) getArguments().getSerializable("product");
@@ -100,6 +90,7 @@ public class ViewDetalleProductoFragment extends Fragment {
 
         binding.buttonAgregar.setOnClickListener(v -> {
             if (cliente != 0) {
+
                 mostrarDialogoCantidad();
             } else {
                 mostrarDialogoLogin();
@@ -209,8 +200,6 @@ public class ViewDetalleProductoFragment extends Fragment {
                         long clienteId = response.body().getIdCliente();
                         sharedViewModel.setClienteId(clienteId);
                         sharedPreferences.edit().putLong("clienteId", clienteResponse.getIdCliente()).apply();
-                        cliente = clienteResponse.getIdCliente();
-                        viewModel.setClienteId(cliente);
                         dialog.dismiss();
                     } else {
                         Toast.makeText(requireContext(), "Login inválido", Toast.LENGTH_SHORT).show();

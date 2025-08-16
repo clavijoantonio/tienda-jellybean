@@ -46,7 +46,14 @@ public class SharedPedidoViewModel extends ViewModel {
     public LiveData<Long> getClienteId() {
         return clienteId;
     }
-
+    public void eliminarDetalle(DetallePedido detalle) {
+        List<DetallePedido> currentList = detallesPedido.getValue();
+        if (currentList != null) {
+            List<DetallePedido> newList = new ArrayList<>(currentList);
+            newList.remove(detalle);
+            detallesPedido.setValue(newList);
+        }
+    }
     public LiveData<List<DetallePedido>> getDetallesPedido() {
         return detallesPedido;
     }

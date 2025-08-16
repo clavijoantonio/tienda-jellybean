@@ -1,5 +1,4 @@
-package com.alexandra.jellybeanstore.viewmodels;
-
+package com.alexandra.jellybeanstore.views;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,7 +15,7 @@ import com.alexandra.jellybeanstore.repositories.ProductoRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CrearPedidoViewModel extends ViewModel{
+public class CrearPedidoViewModel extends ViewModel {
     private final PedidoRepository repository;
     //private MutableLiveData<List<Cliente>> clientes = new MutableLiveData<>();
     private MutableLiveData<String> error = new MutableLiveData<>();
@@ -33,44 +32,44 @@ public class CrearPedidoViewModel extends ViewModel{
         this.repository = repository;
         this.productoRepository=productoRepository;
         this.id=id;
-       // loadProducts(id);
+        // loadProducts(id);
         cargarClientes();
     }
 
 
-   // public LiveData<List<Cliente>> getClientes() { return clientes; }
+    // public LiveData<List<Cliente>> getClientes() { return clientes; }
     public LiveData<String> getError() { return error; }
     public LiveData<Boolean> getIsLoading() { return isLoading; }
-   // public List<DetallePedido> getDetalles() { return detalles; }
+    // public List<DetallePedido> getDetalles() { return detalles; }
 
 
 
 
 
-public void agregarDetalleConCantidad(long productId, int cantidad) {
-    if (cantidad <= 0) {
-        error.setValue("La cantidad debe ser mayor a cero");
-        return;
+    public void agregarDetalleConCantidad(long productId, int cantidad) {
+        if (cantidad <= 0) {
+            error.setValue("La cantidad debe ser mayor a cero");
+            return;
+        }
+
+        isLoading.setValue(true);
+
+        productoRepository.getProductsId(new ProductoRepository.ProductCallback2() {
+
+
+            @Override
+            public void onSuccess(Product products) {
+                agregarProductoComoDetalle(products, cantidad);
+                isLoading.postValue(false);
+            }
+
+            @Override
+            public void onError(String errorMsg) {
+                error.postValue("Error al cargar producto: " + errorMsg);
+                isLoading.postValue(false);
+            }
+        }, productId);
     }
-
-    isLoading.setValue(true);
-
-    productoRepository.getProductsId(new ProductoRepository.ProductCallback2() {
-
-
-        @Override
-        public void onSuccess(Product products) {
-            agregarProductoComoDetalle(products, cantidad);
-            isLoading.postValue(false);
-        }
-
-        @Override
-        public void onError(String errorMsg) {
-            error.postValue("Error al cargar producto: " + errorMsg);
-            isLoading.postValue(false);
-        }
-    }, productId);
-}
 
     private void agregarProductoComoDetalle(Product product, int cantidad) {
         List<DetallePedido> detallesActuales = _detalles.getValue();
@@ -84,17 +83,17 @@ public void agregarDetalleConCantidad(long productId, int cantidad) {
         _detalles.setValue(detallesActuales);
     }
 
-public LiveData<List<DetallePedido>> getDetalles() {
-    return _detalles;
-}
-
-public void removerDetalle(int position) {
-    List<DetallePedido> actual = _detalles.getValue();
-    if (actual != null && position >= 0 && position < actual.size()) {
-        actual.remove(position);
-        _detalles.setValue(actual);
+    public LiveData<List<DetallePedido>> getDetalles() {
+        return _detalles;
     }
-}
+
+    public void removerDetalle(int position) {
+        List<DetallePedido> actual = _detalles.getValue();
+        if (actual != null && position >= 0 && position < actual.size()) {
+            actual.remove(position);
+            _detalles.setValue(actual);
+        }
+    }
   /*  public void loadProducts(long id) {
 
         productoRepository.getProductsId(new ProductoRepository.ProductCallback2() {
@@ -142,25 +141,25 @@ public void removerDetalle(int position) {
 
 
 
-   /* public void crearPedido( long idCliente) {
-        isLoading.setValue(true);
+    /* public void crearPedido( long idCliente) {
+         isLoading.setValue(true);
 
-        Pedido pedido = new Pedido(idCliente, new ArrayList<>(detalles));
+         Pedido pedido = new Pedido(idCliente, new ArrayList<>(detalles));
 
-        repository.crearPedido(pedido, new PedidoRepository.PedidoCallback() {
-            @Override
-            public void onSuccess() {
-                isLoading.postValue(false);
-                error.postValue(null);
-            }
+         repository.crearPedido(pedido, new PedidoRepository.PedidoCallback() {
+             @Override
+             public void onSuccess() {
+                 isLoading.postValue(false);
+                 error.postValue(null);
+             }
 
-            @Override
-            public void onError(String errorMsg) {
-                isLoading.postValue(false);
-                error.postValue(errorMsg);
-            }
-        });
-    }*/
+             @Override
+             public void onError(String errorMsg) {
+                 isLoading.postValue(false);
+                 error.postValue(errorMsg);
+             }
+         });
+     }*/
     public void setClienteId(long idCliente) {
         this.id = idCliente;
     }

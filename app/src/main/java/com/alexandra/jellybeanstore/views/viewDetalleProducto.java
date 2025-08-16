@@ -19,7 +19,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alexandra.jellybeanstore.R;
-import com.alexandra.jellybeanstore.activityCrearPedido;
 import com.alexandra.jellybeanstore.api.ApiClient;
 import com.alexandra.jellybeanstore.api.ClienteApiService;
 import com.alexandra.jellybeanstore.api.ClienteRequest;
@@ -28,13 +27,11 @@ import com.alexandra.jellybeanstore.api.PedidoApiService;
 import com.alexandra.jellybeanstore.databinding.ActivityAgregarCantidadBinding;
 import com.alexandra.jellybeanstore.databinding.ActivityLoginClienteBinding;
 import com.alexandra.jellybeanstore.databinding.ActivityViewDetalleProductoBinding;
-import com.alexandra.jellybeanstore.models.Cliente;
 import com.alexandra.jellybeanstore.models.DetallePedido;
 import com.alexandra.jellybeanstore.models.Pedido;
 import com.alexandra.jellybeanstore.models.Product;
 import com.alexandra.jellybeanstore.repositories.PedidoRepository;
 import com.alexandra.jellybeanstore.repositories.ProductoRepository;
-import com.alexandra.jellybeanstore.viewmodels.CrearPedidoViewModel;
 import com.alexandra.jellybeanstore.viewmodels.CrearPedidoViewModelFactory;
 import com.alexandra.jellybeanstore.viewmodels.SharedPedidoViewModel;
 import com.squareup.picasso.Picasso;
@@ -187,7 +184,7 @@ public class viewDetalleProducto extends AppCompatActivity {
 
                     cliente= loginResponse.getIdCliente();
                     pedido.setIdCliente(cliente);
-                    mostrarAtivityCrearPedido();
+
                 } else {
                     mostrarError("Credenciales incorrectas o error del servidor");
                 }
@@ -233,7 +230,7 @@ public class viewDetalleProducto extends AppCompatActivity {
                 if (dialog != null && dialog.isShowing()) {
                     dialog.dismiss();
                 }
-                mostrarAtivityCrearPedido();
+
                 finish();
             } catch (NumberFormatException e) {
                 Toast.makeText(this, "Cantidad inválida", Toast.LENGTH_SHORT).show();
@@ -245,10 +242,7 @@ public class viewDetalleProducto extends AppCompatActivity {
     }
 
     //funcion para cargar la vista de crear pedido
-    public void mostrarAtivityCrearPedido(){
-        Intent intent = new Intent(viewDetalleProducto.this, activityCrearPedido.class);
-        startActivity(intent);
-    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

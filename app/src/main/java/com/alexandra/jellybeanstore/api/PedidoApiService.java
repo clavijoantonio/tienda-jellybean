@@ -10,7 +10,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface PedidoApiService {
-    @POST("pedidos")
+    @POST("pedido")
     Call<PedidoResponse> crearPedido(@Body PedidoRequest pedido);
 
    // @GET("pedidos/{id}")

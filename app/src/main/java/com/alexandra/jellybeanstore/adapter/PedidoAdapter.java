@@ -12,8 +12,10 @@ import com.alexandra.jellybeanstore.databinding.ItemPedidoBinding;
 import com.alexandra.jellybeanstore.models.DetallePedido;
 
 public class PedidoAdapter extends ListAdapter<DetallePedido, PedidoAdapter.ViewHolder> {
-    public PedidoAdapter() {
+    private  OnDeleteClickListener onDeleteClickListener;
+    public PedidoAdapter(OnDeleteClickListener listener) {
         super(DIFF_CALLBACK);
+        this.onDeleteClickListener = listener;
     }
 
     @NonNull
@@ -29,7 +31,7 @@ public class PedidoAdapter extends ListAdapter<DetallePedido, PedidoAdapter.View
         holder.bind(getItem(position));
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private final ItemPedidoBinding binding;
 
         ViewHolder(ItemPedidoBinding binding) {
@@ -43,6 +45,15 @@ public class PedidoAdapter extends ListAdapter<DetallePedido, PedidoAdapter.View
             binding.textCantidad.setText(String.valueOf(detalle.getCantidad()));
             binding.textSubtotal.setText(String.format("$%.2f",
                     detalle.getProduct().getPrecioProducto() * detalle.getCantidad()));
+            // Configurar el click listener para el botón de eliminar
+            binding.btnEliminar.setOnClickListener(v -> {
+                if (onDeleteClickListener != null) {
+                    int position = getBindingAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onDeleteClickListener.onDeleteClick(getItem(position));
+                    }
+                }
+            });
         }
     }
 
@@ -58,4 +69,7 @@ public class PedidoAdapter extends ListAdapter<DetallePedido, PedidoAdapter.View
                     return oldItem.equals(newItem);
                 }
             };
+    public interface OnDeleteClickListener {
+        void onDeleteClick(DetallePedido detalle);
+    }
 }

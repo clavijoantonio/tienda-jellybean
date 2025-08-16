@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alexandra.jellybeanstore.repositories.PedidoRepository;
 import com.alexandra.jellybeanstore.repositories.ProductoRepository;
+import com.alexandra.jellybeanstore.views.CrearPedidoViewModel;
 
 public class CrearPedidoViewModelFactory implements ViewModelProvider.Factory{
     private final PedidoRepository repository;
